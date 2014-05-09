@@ -21,6 +21,6 @@ The HUSH app keeps your phone silent when it is not supposed to ring. Be it a me
 *  If you have an idea to improve the package, let me know. 
 *  Post issues in the github issue tracker.
 *  Our Email hello@sayonetech.com
-*  Pull requests are welcome.
+*  Pull requests are welcome. Contat us for repository pull access
 
 

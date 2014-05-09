@@ -1,0 +1,6 @@
+
+    <resources>
+        <color name="HushYellow" >#F1C232</color>
+        <color name="HushGrey">#dddddd</color>
+        <color name="HushShader">#aaaaaa</color>
+    </resources>

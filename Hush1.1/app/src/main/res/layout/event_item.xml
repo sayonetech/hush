@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:text="Event"
+        android:id="@+id/event"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/event"
+        android:textSize="12sp"
+        android:text="time"
+        android:id="@+id/timeStart"
+        />
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event"
+        android:layout_marginLeft="10px"
+        android:layout_toRightOf="@id/timeStart"
+        android:textSize="12sp"
+        android:text="time"
+        android:id="@+id/timeEnd"
+        />
+
+     <ImageView
+         android:id="@+id/imageView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"
+         android:src="@drawable/arrow" />
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hush App</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="next">Next</string>
+
+    <string-array name="help_texts">
+        <item>HUSH lets your mobile stay silent while you attend your meetings</item>
+        <item>HUSH automatically syncs with your calendar. </item>
+        <item>Enter your meeting timings in your google calendar.</item>
+        <item>HUSH will keep your phone silent all through the meeting.</item>
+        <item>Meeting over? Your Phone is loud now.</item>
+    </string-array>
+
+</resources>

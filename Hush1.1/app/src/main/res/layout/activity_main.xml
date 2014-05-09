@@ -1,0 +1,147 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+<!-- Main list view -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/HushYellow"
+            android:paddingTop="10px"
+            android:paddingBottom="15px"
+            android:src="@drawable/list_header" />
+        <ImageView
+            android:id="@+id/shader"
+            android:layout_width="fill_parent"
+            android:layout_height="5px"
+            android:layout_below="@id/header"
+            android:src="@drawable/shader" />
+
+        <ImageView
+            android:id="@+id/footer"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/HushYellow" />
+
+        <ListView
+            android:id="@+id/event_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/footer"
+            android:divider="@drawable/divider"
+            android:dividerHeight="2px"
+            android:layout_below="@id/shader" />
+    </RelativeLayout>
+<!-- Help contents -->
+    <RelativeLayout
+        android:id="@+id/help_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/HushGrey" >
+
+        <ImageView
+            android:id="@+id/help_header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/HushYellow"
+            android:paddingBottom="5px"
+            android:paddingTop="5px"
+            android:src="@drawable/list_header" />
+
+        <LinearLayout
+            android:id="@+id/pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/help_header"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/page1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/marker_active" />
+
+            <ImageView
+                android:id="@+id/page2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/marker_inactive" />
+
+            <ImageView
+                android:id="@+id/page3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/marker_inactive" />
+
+            <ImageView
+                android:id="@+id/page4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/marker_inactive" />
+            <ImageView
+                android:id="@+id/page5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/marker_inactive" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/pages"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/HushYellow" >
+            <TextSwitcher 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/help_text"
+                />
+            <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/next_btn"
+                android:text="@string/next"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/next_btn"
+                />
+            
+        </RelativeLayout>
+    </RelativeLayout>
+<!-- Splash -->
+    <RelativeLayout
+        android:id="@+id/splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/HushGrey" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/splash" />
+    </RelativeLayout>
+
+</FrameLayout>

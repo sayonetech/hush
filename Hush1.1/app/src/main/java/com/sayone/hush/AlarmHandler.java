@@ -22,6 +22,8 @@ public class AlarmHandler extends BroadcastReceiver
          int type = code%10;
          AudioManager am;
          am= (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+
          //For Normal mode
          if(type == EVENT_END){
         	 Toast.makeText(context, "Back to normal ", Toast.LENGTH_LONG).show(); // For example
@@ -34,7 +36,7 @@ public class AlarmHandler extends BroadcastReceiver
              am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
          }
          
-         System.out.println("heeeeyyy alarm adichu");
+         System.out.println("Changing to silent mode");
      }
 
  public static void SetAlarm(Context context, long time, int code)

@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.widget.Toast.*;
 
 public class EventListAdapter extends ArrayAdapter<CalendarEvent> {
+
 	  private final Activity context;
 	  private final ArrayList<CalendarEvent> events;
 	  SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.US);
@@ -25,6 +29,7 @@ public class EventListAdapter extends ArrayAdapter<CalendarEvent> {
 	    super(context, R.layout.event_item, events);
 	    this.context = context;
 	    this.events = events;
+
 	  }
 
 	  @Override
@@ -38,7 +43,13 @@ public class EventListAdapter extends ArrayAdapter<CalendarEvent> {
 	      viewHolder.timeStart = (TextView) rowView.findViewById(R.id.timeStart);
 	      viewHolder.timeEnd = (TextView) rowView.findViewById(R.id.timeEnd);
 	      rowView.setTag(viewHolder);
+
+
+
+
 	    }
+
+
 
 	    ViewHolder holder = (ViewHolder) rowView.getTag();
 	    String s = events.get(position).getTitle();
@@ -50,4 +61,6 @@ public class EventListAdapter extends ArrayAdapter<CalendarEvent> {
 
 	    return rowView;
 	  }
-	} 
+
+
+}

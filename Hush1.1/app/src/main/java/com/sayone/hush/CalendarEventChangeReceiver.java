@@ -10,6 +10,8 @@ import android.content.Intent;
 
 public class CalendarEventChangeReceiver extends BroadcastReceiver {
 	@Override
+
+
 	public void onReceive(Context context, Intent intent) {
 		android.util.Log.i("Calendar Reciever",
 				"CalendarTest.onReceive called!");
@@ -21,15 +23,23 @@ public class CalendarEventChangeReceiver extends BroadcastReceiver {
 				System.out.println("title :" + event.getTitle() + " : id"
 						+ event.getId());
 				long now = new Date().getTime();
-				if (event.getEnd().getTime() > now) {
-					System.out.println("setting alarm for:" + event.getTitle());
-					AlarmHandler.SetAlarm(context, event.getBegin().getTime(),
-							Integer.parseInt(event.getId()) * 10
-									+ AlarmHandler.EVENT_START);
-					AlarmHandler.SetAlarm(context, event.getEnd().getTime(),
-							Integer.parseInt(event.getId()) * 10
-									+ AlarmHandler.EVENT_END);
-				}
+                String st=event.getTitle();
+                if(st.equals("cls") || st.equals("Meeting")||st.equals("meeting")||st.equals("class")||st.equals("Class")||st.equals("Cls"))
+                {
+
+                    if (event.getEnd().getTime() > now) {
+                        System.out.println("setting alarm for:" + event.getTitle());
+                        AlarmHandler.SetAlarm(context, event.getBegin().getTime(),
+                                Integer.parseInt(event.getId()) * 10
+                                        + AlarmHandler.EVENT_START
+                        );
+                        AlarmHandler.SetAlarm(context, event.getEnd().getTime(),
+                                Integer.parseInt(event.getId()) * 10
+                                        + AlarmHandler.EVENT_END
+                        );
+                    }
+                }
+
 			}
 		}
 

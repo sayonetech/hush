@@ -10,11 +10,13 @@ import java.util.List;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.text.format.DateUtils;
+import android.widget.Toast;
 
 public class CalendarService {
 
@@ -37,6 +39,8 @@ public class CalendarService {
 								CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
 								CalendarContract.Calendars.VISIBLE }), null,
 						null, null);
+
+
 
 		/*
 		 * Use the cursor below for Android API 4.0+ 
@@ -148,6 +152,9 @@ public class CalendarService {
 					System.out.println("Id: " + _id + " Display Name: "
 							+ displayName + " Selected: " + selected);
 					calendarIds.add(_id);
+
+
+
 
 				}
 			}

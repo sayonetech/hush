@@ -34,7 +34,7 @@ public class EventListAdapter extends ArrayAdapter<CalendarEvent> {
 
     private final Activity context;
     private ArrayList<CalendarEvent> events;
-    SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.US);
+    SimpleDateFormat df = new SimpleDateFormat("EEE, d MMM yyyy h:mm a", Locale.US);
     public String tag;
 
     static class ViewHolder {

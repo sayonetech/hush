@@ -7,21 +7,42 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
     private String title;
     private Date begin, end;
     private String id;
-    
+    private  String status;
+    boolean selected = false;
+
     public CalendarEvent() {
             
     }
     
-    public CalendarEvent(String title, Date begin, Date end, String allDay) {
+    public CalendarEvent(String title, Date begin, Date end, String allDay,String status) {
             setTitle(title);
             setBegin(begin);
             setEnd(end);
             setId(allDay);
+            setStatus(status);
+
+
+    }
+    public String getStatus() {
+
+        return status;
+
+
+    }
+
+
+    public void setStatus(String status) {
+        this.status=getId()+1000;
+
     }
 
     public String getTitle() {
+
             return title;
+
+
     }
+
 
     public void setTitle(String title) {
             this.title = title;
@@ -53,7 +74,10 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
     
     @Override
     public String toString(){
-            return getTitle() + " " + getBegin() + " " + getEnd() + " " + getId();
+
+            return getTitle() + " " + getBegin() + " " + getEnd() + " " + getId()+" "+getStatus()+" ";
+
+
     }
 
     @Override
@@ -62,4 +86,11 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
             return getBegin().compareTo(other.begin);
     }
 
+
+    public boolean isSelected() {
+        return selected;
+    }    //me
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }  //me
 }

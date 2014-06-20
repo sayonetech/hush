@@ -7,18 +7,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.text.format.DateUtils;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class CalendarService {
+    private static int passed;
+
 
 	// Default constructor
 	public static HashMap<String, List<CalendarEvent>> readCalendar(Context context) {
@@ -26,7 +34,16 @@ public class CalendarService {
 	}
 
 	// Use to specify specific the time span
-	public static HashMap<String, List<CalendarEvent>> readCalendar(Context context, int days, int hours) {
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static HashMap<String, List<CalendarEvent>> readCalendar(Context context, int days, int hours) {
+
+        //SharedPreferences for getting events count
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);  //me
+        SharedPreferences.Editor editor = pref.edit();
+
+
+        MainActivity playObject = new MainActivity();  //me
+        passed = playObject.getCategory();            //me
 
 		ContentResolver contentResolver = context.getContentResolver();
 
@@ -34,11 +51,12 @@ public class CalendarService {
 		// 4.0)
 		final Cursor cursor = contentResolver
 				.query(Uri.parse("content://com.android.calendar/calendars"),
-						(new String[] {
-								CalendarContract.Calendars._ID,
-								CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-								CalendarContract.Calendars.VISIBLE }), null,
-						null, null);
+                        (new String[]{
+                                CalendarContract.Calendars._ID,
+                                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                                CalendarContract.Calendars.VISIBLE}), null,
+                        null, null, null
+                );
 
 
 
@@ -61,75 +79,168 @@ public class CalendarService {
 		// Loop over all of the calendars
 		for (String id : calendarIds) {
 
-			// Create a builder to define the time span
-			Uri.Builder builder = Uri.parse(
-					"content://com.android.calendar/instances/when")
-					.buildUpon();
-			long now = new Date().getTime();
+            // Create a builder to define the time span
+            Uri.Builder builder = Uri.parse(
+                    "content://com.android.calendar/instances/when")
+                    .buildUpon();
+            long now = new Date().getTime();
 
-			// create the time span based on the inputs
-			ContentUris.appendId(builder, now
-					- (DateUtils.DAY_IN_MILLIS * days)
-					- (DateUtils.HOUR_IN_MILLIS * hours));
-			ContentUris.appendId(builder, now
-					+ (DateUtils.DAY_IN_MILLIS * days)
-					+ (DateUtils.HOUR_IN_MILLIS * hours));
+            // create the time span based on the inputs
+            ContentUris.appendId(builder, now
+                    - (DateUtils.DAY_IN_MILLIS * days)
+                    - (DateUtils.HOUR_IN_MILLIS * hours));
+            ContentUris.appendId(builder, now
+                    + (DateUtils.DAY_IN_MILLIS * days)
+                    + (DateUtils.HOUR_IN_MILLIS * hours));
 
-			// Create an event cursor to find all events in the calendar
-			Cursor eventCursor = contentResolver.query(builder.build(),
-					new String[] { Events.TITLE, Events.DTSTART, Events.DTEND, Events._ID },
-					Events.CALENDAR_ID +"="+ id, null,
-					"startDay ASC, startMinute ASC");
+            // Create an event cursor to find all events in the calendar
 
-			System.out.println("eventCursor count=" + eventCursor.getCount());
+            Cursor eventCursor = contentResolver.query(builder.build(),
+                    new String[]{Events.TITLE, Events.DTSTART, Events.DTEND, Events._ID,Events.STATUS},
+                    Events.CALENDAR_ID + "=" + id, null,
+                    "startDay ASC, startMinute ASC");
 
-			// If there are actual events in the current calendar, the count
-			// will exceed zero
-			if (eventCursor.getCount() > 0) {
 
-				// Create a list of calendar events for the specific calendar
-				List<CalendarEvent> eventList = new ArrayList<CalendarEvent>();
 
-				// Move to the first object
-				eventCursor.moveToFirst();
+            System.out.println("eventCursor count=" + eventCursor.getCount());
 
-				// Create an object of CalendarEvent which contains the title,
-				// when the event begins and ends,
-				// and if it is a full day event or not
-				CalendarEvent ce = loadEvent(eventCursor);
+            //SharedPreferences for getting events count                                              //me
+            editor.putInt("Event_Count" , eventCursor.getCount());
+            editor.commit();
 
-				// Adds the first object to the list of events
-				eventList.add(ce);
 
-				System.out.println(ce.toString());
+            // If there are actual events in the current calendar, the count
+            // will exceed zero
 
-				// While there are more events in the current calendar, move to
-				// the next instance
-				while (eventCursor.moveToNext()) {
+            if (eventCursor.getCount() > 0) {
 
-					// Adds the object to the list of events
-					ce = loadEvent(eventCursor);
-					eventList.add(ce);
+                passed = playObject.getCategory();            //me
+                if (passed == 0) {  ///me
 
-					System.out.println(ce.toString());
 
-				}
+                    // Create a list of calendar events for the specific calendar
+                    List<CalendarEvent> eventList = new ArrayList<CalendarEvent>();
 
-				Collections.sort(eventList);
-				eventMap.put(id, eventList);
+                    // Move to the first object
+                    eventCursor.moveToFirst();
 
-				System.out.println(eventMap.keySet().size() + " "
-						+ eventMap.values());
-				return eventMap;
-			}
-		}
+                    // Create an object of CalendarEvent which contains the title,
+                    // when the event begins and ends,
+                    // and if it is a full day event or not
+                    CalendarEvent ce = loadEvent(eventCursor);
+
+                    passed = playObject.getCategory();
+
+
+                    if (passed == 0 && ce.getTitle().equals("cls") || ce.getTitle().equals("Meeting") || ce.getTitle().equals("meeting") || ce.getTitle().equals("class") || ce.getTitle().equals("Class") || ce.getTitle().equals("Cls")) {  ///me
+
+                        // Adds the first object to the list of events
+                        eventList.add(ce);
+                        // Toast.makeText(context,"1.passed==0=:"+passed,Toast.LENGTH_LONG).show();      //me
+
+
+                        System.out.println(ce.toString());
+
+
+                    }   ////me
+                    passed = playObject.getCategory();//me
+
+
+                    // While there are more events in the current calendar, move to
+                    // the next instance
+
+                    while (eventCursor.moveToNext()) {
+
+                        passed = playObject.getCategory();//me
+
+
+                        if (passed == 0 && loadEvent(eventCursor).getTitle().equals("cls") || loadEvent(eventCursor).getTitle().equals("Meeting") || loadEvent(eventCursor).getTitle().equals("meeting") || loadEvent(eventCursor).getTitle().equals("class") || loadEvent(eventCursor).getTitle().equals("Class") || loadEvent(eventCursor).getTitle().equals("Cls")) {  ///me
+
+                           // Adds the object to the list of events
+                            ce = loadEvent(eventCursor);
+                            eventList.add(ce);
+
+                            System.out.println(ce.toString());
+
+
+                        }    //me
+
+
+                    }
+                    passed = playObject.getCategory();//me
+
+                    Collections.sort(eventList);
+                    eventMap.put(id, eventList);
+
+                    System.out.println(eventMap.keySet().size() + " "
+                            + eventMap.values());
+                    return eventMap;
+
+                } ///me
+
+                else  //me
+                {
+                  //  passed = playObject.getCategory();            //me
+
+
+                    // Create a list of calendar events for the specific calendar
+                    List<CalendarEvent> eventList = new ArrayList<CalendarEvent>();
+
+                    // Move to the first object
+                    eventCursor.moveToFirst();
+
+                    // Create an object of CalendarEvent which contains the title,
+                    // when the event begins and ends,
+                    // and if it is a full day event or not
+                    CalendarEvent ce = loadEvent(eventCursor);
+                     // Adds the first object to the list of events
+                    eventList.add(ce);
+                   // Toast.makeText(context,"1.passed==0=:"+passed,Toast.LENGTH_LONG).show();      //me
+
+
+                    System.out.println(ce.toString());
+                    passed = playObject.getCategory();//me
+
+
+                    // While there are more events in the current calendar, move to
+                    // the next instance
+
+                    while (eventCursor.moveToNext()) {
+
+
+                        // Adds the object to the list of events
+                        ce = loadEvent(eventCursor);
+                        eventList.add(ce);
+
+                        System.out.println(ce.toString());
+                        passed = playObject.getCategory();//me
+
+
+
+                    }
+                    passed = playObject.getCategory();//me
+
+                    Collections.sort(eventList);
+                    eventMap.put(id, eventList);
+
+                    System.out.println(eventMap.keySet().size() + " "
+                            + eventMap.values());
+                    return eventMap;
+
+
+                }
+
+
+            }
+        }
+
 		return null;
 	}
 
 	// Returns a new instance of the calendar object
 	private static CalendarEvent loadEvent(Cursor csr) {
 		return new CalendarEvent(csr.getString(0), new Date(csr.getLong(1)),
-				new Date(csr.getLong(2)), csr.getString(3));
+				new Date(csr.getLong(2)), csr.getString(3),csr.getString(4));
 	}
 
 	// Creates the list of calendar ids and returns it in a set
@@ -146,6 +257,8 @@ public class CalendarService {
 				while (cursor.moveToNext()) {
 
 					String _id = cursor.getString(0);
+                  //  String STATUS="true";
+
 					String displayName = cursor.getString(1);
 					Boolean selected = !cursor.getString(2).equals("0");
 

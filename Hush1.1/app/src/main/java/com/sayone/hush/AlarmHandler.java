@@ -5,14 +5,19 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class AlarmHandler extends BroadcastReceiver 
 {    
 	public final static int EVENT_START = 0;
 	public final static int EVENT_END = 1;
+    public String status,id;
+    public  int event_count;
      @Override
      public void onReceive(Context context, Intent intent) 
      {   
@@ -20,9 +25,20 @@ public class AlarmHandler extends BroadcastReceiver
          PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
          int code = intent.getExtras().getInt("requestCode");
          int type = code%10;
+         int _id=code/10;
          AudioManager am;
          am= (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
+          SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+          SharedPreferences.Editor editor = pref.edit();
+         event_count=pref.getInt("Event_Count",0);
+
+
+
+         if (!pref.getString("ID"+_id,"0").equals("false"))
+         {
+
+            // Toast.makeText(context, "state :_ "+pref.getString("ID"+_id,"0"), Toast.LENGTH_LONG).show();
 
          //For Normal mode
          if(type == EVENT_END){
@@ -30,16 +46,21 @@ public class AlarmHandler extends BroadcastReceiver
         	 am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
          }
          
-         else{
+         else {
         	 Toast.makeText(context, "Changing to silent " , Toast.LENGTH_LONG).show();
         	 am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
              am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
          }
          
          System.out.println("Changing to silent mode");
+         }
      }
 
- public static void SetAlarm(Context context, long time, int code)
+    private Intent getIntent() {
+        return null;
+    }
+
+    public static void SetAlarm(Context context, long time, int code)
  {
      AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
      Intent i = new Intent(context, AlarmHandler.class);

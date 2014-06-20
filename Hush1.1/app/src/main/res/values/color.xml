@@ -3,4 +3,6 @@
         <color name="HushYellow" >#F1C232</color>
         <color name="HushGrey">#dddddd</color>
         <color name="HushShader">#aaaaaa</color>
+        <color name="HushDarkYellow" >#fff1a210</color>
+        <color name="HushLightBlue" >#ff40b7f1</color>
     </resources>

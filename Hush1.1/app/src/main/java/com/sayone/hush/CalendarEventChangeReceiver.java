@@ -7,11 +7,15 @@ import java.util.List;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 public class CalendarEventChangeReceiver extends BroadcastReceiver {
-	@Override
+    public  String status,id;
+    int i=0;
 
-
+    @Override
 	public void onReceive(Context context, Intent intent) {
 		android.util.Log.i("Calendar Reciever",
 				"CalendarTest.onReceive called!");
@@ -24,8 +28,17 @@ public class CalendarEventChangeReceiver extends BroadcastReceiver {
 						+ event.getId());
 				long now = new Date().getTime();
                 String st=event.getTitle();
+
+                final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                final SharedPreferences.Editor editor = pref.edit();
+
+
+
+
                 if(st.equals("cls") || st.equals("Meeting")||st.equals("meeting")||st.equals("class")||st.equals("Class")||st.equals("Cls"))
                 {
+
+
 
                     if (event.getEnd().getTime() > now) {
                         System.out.println("setting alarm for:" + event.getTitle());
@@ -40,8 +53,19 @@ public class CalendarEventChangeReceiver extends BroadcastReceiver {
                     }
                 }
 
+
+
 			}
 		}
 
 	}
+
+   public String status1()
+   {
+       return status;
+   }
+    public String id1()
+    {
+        return id;
+    }
 }

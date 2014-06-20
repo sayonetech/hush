@@ -6,12 +6,18 @@
     <string name="hello_world">Hello world!</string>
     <string name="next">Next</string>
 
-    <string-array name="help_texts">
+    <string-array name="help_texts" >
+
         <item>HUSH lets your mobile stay silent while you attend your meetings</item>
         <item>HUSH automatically syncs with your calendar. </item>
         <item>Enter your meeting timings in your google calendar.</item>
         <item>HUSH will keep your phone silent all through the meeting.</item>
         <item>Meeting over? Your Phone is loud now.</item>
+        <item>test</item>
+
+
     </string-array>
+
+    <string name="title_activity_help">help</string>
 
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/list_all"
+        android:title="List All Events"
+        android:icon="@drawable/icon" />
+    <item android:id="@+id/list_selected"
+        android:title="List Selected Events"
+        android:icon="@drawable/icon" />
+
+</menu>

@@ -28,13 +28,13 @@ public class CalendarService {
     private static int passed;
 
 
-	// Default constructor
-	public static HashMap<String, List<CalendarEvent>> readCalendar(Context context) {
-		return readCalendar(context, 1, 0);
-	}
+    // Default constructor
+    public static HashMap<String, List<CalendarEvent>> readCalendar(Context context) {
+        return readCalendar(context, 1, 0);
+    }
 
-	// Use to specify specific the time span
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    // Use to specify specific the time span
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static HashMap<String, List<CalendarEvent>> readCalendar(Context context, int days, int hours) {
 
         //SharedPreferences for getting events count
@@ -45,12 +45,12 @@ public class CalendarService {
         MainActivity playObject = new MainActivity();  //me
         passed = playObject.getCategory();            //me
 
-		ContentResolver contentResolver = context.getContentResolver();
+        ContentResolver contentResolver = context.getContentResolver();
 
-		// Create a cursor and read from the calendar (for Android API below
-		// 4.0)
-		final Cursor cursor = contentResolver
-				.query(Uri.parse("content://com.android.calendar/calendars"),
+        // Create a cursor and read from the calendar (for Android API below
+        // 4.0)
+        final Cursor cursor = contentResolver
+                .query(Uri.parse("content://com.android.calendar/calendars"),
                         (new String[]{
                                 CalendarContract.Calendars._ID,
                                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
@@ -61,7 +61,7 @@ public class CalendarService {
 
 
 		/*
-		 * Use the cursor below for Android API 4.0+ 
+         * Use the cursor below for Android API 4.0+
 		 * 
 		 * Cursor cursor =
 		 * contentResolver.query(Uri.parse("content://com.android.calendar/events"
@@ -69,15 +69,15 @@ public class CalendarService {
 		 * "dtend", "eventLocation" }, null, null, null);
 		 */
 
-		// Create a set containing all of the calendar IDs available on the
-		// phone
-		HashSet<String> calendarIds = getCalenderIds(cursor);
+        // Create a set containing all of the calendar IDs available on the
+        // phone
+        HashSet<String> calendarIds = getCalenderIds(cursor);
 
-		// Create a hash map of calendar ids and the events of each id
-		HashMap<String, List<CalendarEvent>> eventMap = new HashMap<String, List<CalendarEvent>>();
+        // Create a hash map of calendar ids and the events of each id
+        HashMap<String, List<CalendarEvent>> eventMap = new HashMap<String, List<CalendarEvent>>();
 
-		// Loop over all of the calendars
-		for (String id : calendarIds) {
+        // Loop over all of the calendars
+        for (String id : calendarIds) {
 
             // Create a builder to define the time span
             Uri.Builder builder = Uri.parse(
@@ -96,16 +96,15 @@ public class CalendarService {
             // Create an event cursor to find all events in the calendar
 
             Cursor eventCursor = contentResolver.query(builder.build(),
-                    new String[]{Events.TITLE, Events.DTSTART, Events.DTEND, Events._ID,Events.STATUS},
+                    new String[]{Events.TITLE, Events.DTSTART, Events.DTEND, Events._ID, Events.STATUS},
                     Events.CALENDAR_ID + "=" + id, null,
                     "startDay ASC, startMinute ASC");
-
 
 
             System.out.println("eventCursor count=" + eventCursor.getCount());
 
             //SharedPreferences for getting events count                                              //me
-            editor.putInt("Event_Count" , eventCursor.getCount());
+            editor.putInt("Event_Count", eventCursor.getCount());
             editor.commit();
 
 
@@ -156,7 +155,7 @@ public class CalendarService {
 
                         if (passed == 0 && loadEvent(eventCursor).getTitle().equals("cls") || loadEvent(eventCursor).getTitle().equals("Meeting") || loadEvent(eventCursor).getTitle().equals("meeting") || loadEvent(eventCursor).getTitle().equals("class") || loadEvent(eventCursor).getTitle().equals("Class") || loadEvent(eventCursor).getTitle().equals("Cls")) {  ///me
 
-                           // Adds the object to the list of events
+                            // Adds the object to the list of events
                             ce = loadEvent(eventCursor);
                             eventList.add(ce);
 
@@ -180,7 +179,7 @@ public class CalendarService {
 
                 else  //me
                 {
-                  //  passed = playObject.getCategory();            //me
+                    //  passed = playObject.getCategory();            //me
 
 
                     // Create a list of calendar events for the specific calendar
@@ -193,9 +192,9 @@ public class CalendarService {
                     // when the event begins and ends,
                     // and if it is a full day event or not
                     CalendarEvent ce = loadEvent(eventCursor);
-                     // Adds the first object to the list of events
+                    // Adds the first object to the list of events
                     eventList.add(ce);
-                   // Toast.makeText(context,"1.passed==0=:"+passed,Toast.LENGTH_LONG).show();      //me
+                    // Toast.makeText(context,"1.passed==0=:"+passed,Toast.LENGTH_LONG).show();      //me
 
 
                     System.out.println(ce.toString());
@@ -216,7 +215,6 @@ public class CalendarService {
                         passed = playObject.getCategory();//me
 
 
-
                     }
                     passed = playObject.getCategory();//me
 
@@ -234,52 +232,48 @@ public class CalendarService {
             }
         }
 
-		return null;
-	}
+        return null;
+    }
 
-	// Returns a new instance of the calendar object
-	private static CalendarEvent loadEvent(Cursor csr) {
-		return new CalendarEvent(csr.getString(0), new Date(csr.getLong(1)),
-				new Date(csr.getLong(2)), csr.getString(3),csr.getString(4));
-	}
+    // Returns a new instance of the calendar object
+    private static CalendarEvent loadEvent(Cursor csr) {
+        return new CalendarEvent(csr.getString(0), new Date(csr.getLong(1)),
+                new Date(csr.getLong(2)), csr.getString(3), csr.getString(4));
+    }
 
-	// Creates the list of calendar ids and returns it in a set
-	private static HashSet<String> getCalenderIds(Cursor cursor) {
+    // Creates the list of calendar ids and returns it in a set
+    private static HashSet<String> getCalenderIds(Cursor cursor) {
 
-		HashSet<String> calendarIds = new HashSet<String>();
+        HashSet<String> calendarIds = new HashSet<String>();
 
-		try {
+        try {
 
-			// If there are more than 0 calendars, continue
-			if (cursor.getCount() > 0) {
+            // If there are more than 0 calendars, continue
+            if (cursor.getCount() > 0) {
 
-				// Loop to set the id for all of the calendars
-				while (cursor.moveToNext()) {
+                // Loop to set the id for all of the calendars
+                while (cursor.moveToNext()) {
 
-					String _id = cursor.getString(0);
-                  //  String STATUS="true";
+                    String _id = cursor.getString(0);
+                    //  String STATUS="true";
 
-					String displayName = cursor.getString(1);
-					Boolean selected = !cursor.getString(2).equals("0");
+                    String displayName = cursor.getString(1);
+                    Boolean selected = !cursor.getString(2).equals("0");
 
-					System.out.println("Id: " + _id + " Display Name: "
-							+ displayName + " Selected: " + selected);
-					calendarIds.add(_id);
-
-
+                    System.out.println("Id: " + _id + " Display Name: "
+                            + displayName + " Selected: " + selected);
+                    calendarIds.add(_id);
 
 
-				}
-			}
-		}
+                }
+            }
+        } catch (AssertionError ex) {
+            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		catch (AssertionError ex) {
-			ex.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        return calendarIds;
 
-		return calendarIds;
-
-	}
+    }
 }

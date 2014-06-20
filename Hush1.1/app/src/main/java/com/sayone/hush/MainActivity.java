@@ -106,14 +106,14 @@ public class MainActivity extends Activity {
             case R.id.list_all:
                 Log.v("ttt", "You pressed the icon!");
                 Category =1;
-                Toast.makeText(this,"list all:"+Category,Toast.LENGTH_LONG).show();
+
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
                 break;
             case R.id.list_selected:Log.v("ttt", "You pressed the text!");
                 Category =0;
-                Toast.makeText(this,"list selected:"+Category,Toast.LENGTH_LONG).show();
+
                 Intent intent1 = getIntent();
                 finish();
                 startActivity(intent1);

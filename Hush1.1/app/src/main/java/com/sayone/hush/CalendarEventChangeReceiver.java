@@ -12,32 +12,28 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class CalendarEventChangeReceiver extends BroadcastReceiver {
-    public  String status,id;
-    int i=0;
+    public String status, id;
+    int i = 0;
 
     @Override
-	public void onReceive(Context context, Intent intent) {
-		android.util.Log.i("Calendar Reciever",
-				"CalendarTest.onReceive called!");
-		HashMap<String, List<CalendarEvent>> events = CalendarService
-				.readCalendar(context);
-		if(events == null) return;
-		for (String key : events.keySet()) {
-			for (CalendarEvent event : events.get(key)) {
-				System.out.println("title :" + event.getTitle() + " : id"
-						+ event.getId());
-				long now = new Date().getTime();
-                String st=event.getTitle();
+    public void onReceive(Context context, Intent intent) {
+        android.util.Log.i("Calendar Reciever",
+                "CalendarTest.onReceive called!");
+        HashMap<String, List<CalendarEvent>> events = CalendarService
+                .readCalendar(context);
+        if (events == null) return;
+        for (String key : events.keySet()) {
+            for (CalendarEvent event : events.get(key)) {
+                System.out.println("title :" + event.getTitle() + " : id"
+                        + event.getId());
+                long now = new Date().getTime();
+                String st = event.getTitle();
 
                 final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
                 final SharedPreferences.Editor editor = pref.edit();
 
 
-
-
-                if(st.equals("cls") || st.equals("Meeting")||st.equals("meeting")||st.equals("class")||st.equals("Class")||st.equals("Cls"))
-                {
-
+                if (st.equals("cls") || st.equals("Meeting") || st.equals("meeting") || st.equals("class") || st.equals("Class") || st.equals("Cls")) {
 
 
                     if (event.getEnd().getTime() > now) {
@@ -54,18 +50,16 @@ public class CalendarEventChangeReceiver extends BroadcastReceiver {
                 }
 
 
+            }
+        }
 
-			}
-		}
+    }
 
-	}
+    public String status1() {
+        return status;
+    }
 
-   public String status1()
-   {
-       return status;
-   }
-    public String id1()
-    {
+    public String id1() {
         return id;
     }
 }
